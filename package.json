@@ -1,0 +1,49 @@
+{
+  "name": "@working-sloth/puml-writer",
+  "version": "1.0.0",
+  "description": "State Machine for NodeJS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublishOnly": "npm uninstall && npm install && npm run build",
+    "build": "rimraf dist && tsc -p src",
+    "test": "rimraf spec/built && tsc -p spec && istanbul cover node_modules/jasmine/bin/jasmine.js",
+    "remapcov": "cat coverage/coverage.json | ./node_modules/.bin/remap-istanbul > coverage/coverage-remap.json && mv -f coverage/coverage-remap.json coverage/coverage.json",
+    "remapcov:win": "type coverage\\coverage.json | .\\node_modules\\.bin\\remap-istanbul > coverage\\coverage-remap.json && del coverage\\coverage.json && ren coverage\\coverage-remap.json coverage.json",
+    "exec": "ts-node -P .config/tsconfig.base.json --files"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/work-work-komei/node.puml-writer.git"
+  },
+  "keywords": [
+    "fsm",
+    "finite state machine",
+    "automaton",
+    "puml",
+    "PlantUML",
+    "statechart",
+    "sloth",
+    "lazy",
+    "diligent"
+  ],
+  "author": "Hiroaki Kobayashi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/work-work-komei/node.puml-writer/issues"
+  },
+  "homepage": "https://github.com/work-work-komei/node.puml-writer#readme",
+  "dependencies": {
+    "@working-sloth/statechart-interface": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^3.3.13",
+    "@working-sloth/data-matrix": "^2.0.0",
+    "codecov": "^3.5.0",
+    "jasmine": "^3.4.0",
+    "remap-istanbul": "^0.13.0",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
+  }
+}

@@ -1,5 +1,7 @@
 import { PumlWriter } from './puml-writer';
-import { AutoIndex, Statechart, StatechartItem, StatechartTransition, MetaStartStateName } from '@working-sloth/statechart-interface';
+import {
+    AutoIndex, Statechart, StatechartItem, StatechartTransition, MetaStartStateName
+} from '@working-sloth/statechart-interface';
 import { escapeRegexp as esc } from './utils';
 import { ArrowDirection } from './interface';
 

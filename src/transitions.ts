@@ -1,6 +1,7 @@
 import { StatechartItem } from '@working-sloth/statechart-interface';
 import { Transition } from './transition';
 import { TransitionBundle } from './private-interfaces';
+import { idOf } from './utils';
 
 
 export class Transitions {
@@ -50,7 +51,7 @@ export class Transitions {
             }
 
             transitions.sort(Transition.compare);
-            const bundler = `__bundler_${from.name}_${to}_`;
+            const bundler = `__bundler_${idOf(from.name)}_${idOf(to)}_`;
             result.transitions.push(...transitions.map(tr => tr.newDestination(bundler)));
             result.transitions.push(new Transition(-1, bundler, to, ''));
             result.bundlers.push(bundler);

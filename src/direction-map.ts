@@ -65,6 +65,10 @@ export class DirectionMap {
         return map;
     }
 
+    /**
+     * @param from [Leaf, ... , Root]
+     * @param to [Leaf, ... , Root]
+     */
     public get(from: string[], to: string[]): string {
         const candidates = [
             ...this.fromPath(from[from.length - 1], to[to.length - 1]),
@@ -109,8 +113,8 @@ export class DirectionMap {
             return undefined;
         }
 
-        const parent = from[from.length - 1];
-        if (to[to.length - 1] !== parent) {
+        const parent = from[1];
+        if (to[1] !== parent) {
             return undefined;
         }
 

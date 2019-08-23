@@ -116,6 +116,9 @@ export class PumlWriter {
         return this.puml.toString();
     }
 
+    /**
+     * @returns [Leaf, ... , Root]
+     */
     private chainOf(state: string): string[] {
         const chain: string[] = [];
         let cur = state;

@@ -41,7 +41,7 @@ export class DirectionMap {
             options.states.map(pos => [idOf(pos.name), {x: pos.x || 0, y: pos.y || 0}])
         );
         this.innerDirections = new Map(
-            options.states.map(state => [state.name, state.innerDirection])
+            options.states.map(state => [idOf(state.name), state.innerDirection])
         );
         this.defaultDirection = this.arrows.get(pathOf('', ''));
         

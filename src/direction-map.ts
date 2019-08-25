@@ -41,7 +41,7 @@ export class DirectionMap {
             options.states.map(pos => [idOf(pos.name), {x: pos.x || 0, y: pos.y || 0}])
         );
         this.innerDirections = new Map(
-            options.states.map(state => [state.name, state.innerDirection])
+            options.states.map(state => [idOf(state.name), state.innerDirection])
         );
         this.defaultDirection = this.arrows.get(pathOf('', ''));
         
@@ -65,6 +65,10 @@ export class DirectionMap {
         return map;
     }
 
+    /**
+     * @param from [Leaf, ... , Root]
+     * @param to [Leaf, ... , Root]
+     */
     public get(from: string[], to: string[]): string {
         const candidates = [
             ...this.fromPath(from[from.length - 1], to[to.length - 1]),
@@ -109,8 +113,8 @@ export class DirectionMap {
             return undefined;
         }
 
-        const parent = from[from.length - 1];
-        if (to[to.length - 1] !== parent) {
+        const parent = from[1];
+        if (to[1] !== parent) {
             return undefined;
         }
 

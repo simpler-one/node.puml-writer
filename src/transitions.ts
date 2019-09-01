@@ -13,9 +13,9 @@ export class Transitions {
             this.addOne(tr);
         }
     }
-    
-    public bundleAsNeeded(bundle: boolean = false, from?: StatechartItem): TransitionBundle {
-        const result = bundle ? this.bundle(from) : { transitions: [...this.map.values()], bundlers: [] };
+
+    public bundleAsNeeded(bundle: boolean = false, fromParent?: StatechartItem): TransitionBundle {
+        const result = bundle ? this.bundle(fromParent) : { transitions: [...this.map.values()], bundlers: [] };
         result.transitions.sort(Transition.compare);
         return result;
     }
@@ -26,8 +26,8 @@ export class Transitions {
         this.map.set(transition.path, newTr);
     }
 
-    private bundle(from: StatechartItem): TransitionBundle {
-        const internals = new Set<string>(getNameList(from));
+    private bundle(fromParent: StatechartItem): TransitionBundle {
+        const internals = new Set(getNameList(fromParent));
 
         const bundler = new Map<string, Transition[]>();
         this.map.forEach(tr => {
@@ -36,7 +36,7 @@ export class Transitions {
                 bundled = [];
                 bundler.set(tr.to, bundled);
             }
-            
+
             bundled.push(tr);
         });
 
@@ -51,7 +51,7 @@ export class Transitions {
             }
 
             transitions.sort(Transition.compare);
-            const bundler = `__bundler_${idOf(from.name)}_${idOf(to)}_`;
+            const bundler = `__bundler_${idOf(fromParent.name)}_${idOf(to)}_`;
             result.transitions.push(...transitions.map(tr => tr.newDestination(bundler)));
             result.transitions.push(new Transition(-1, bundler, to, ''));
             result.bundlers.push(bundler);
@@ -62,7 +62,7 @@ export class Transitions {
 }
 
 function getNameList(state: StatechartItem, result: string[] = []): string[] {
-    result.push(state.name);
+    result.push(idOf(state.name));
     state.children.forEach(child => getNameList(child, result));
     return result;
 }

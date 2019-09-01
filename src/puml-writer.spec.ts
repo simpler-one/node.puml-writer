@@ -8,20 +8,18 @@ import { ArrowDirection } from './interface';
 
 describe('PumlWriter', () => {
     describe('static', () => {
-        describe('getWriter()', () => {
+        xdescribe('getWriter()', () => {
             it('should return a writer', () => {
                 // Given
                 const opt = undefined;
-
                 // When
                 const writer = PumlWriter.getWriter(opt);
-
                 // Then
                 expect(writer).toBeTruthy();
             });
         });
 
-        describe('export(without children)', () => {
+        xdescribe('export(without children)', () => {
             const map: Statechart = {
                 name: 'SampleState',
                 states: [
@@ -186,6 +184,7 @@ describe('PumlWriter', () => {
                     ], [
                         item('State2-1', [transition('Reset', 'State1'), transition('Go', 'State2-2')]),
                         item('State2-2', [transition('Reset', 'State1'), transition('3', 'State3')]),
+                        item('State2-3', [transition('Go', 'State2-2')]),
                     ]),
                     item('State3', [
                         transition('Next', 'State1'),
@@ -209,7 +208,12 @@ describe('PumlWriter', () => {
                 // When
                 const result = writer(map);
                 // Then
-                expect(result).toMatch(esc('<<choice>>'));
+                expect(result).toMatch(esc('__bundler_State2_State1_ <<choice>>'));
+                expect(result).toMatch(esc("State2_1 -down-> __bundler_State2_State1_"));
+                expect(result).toMatch(esc("State2_2 -down-> __bundler_State2_State1_"));
+                expect(result).toMatch(esc("__bundler_State2_State1_ -down-> State1"));
+                expect(result).toMatch(esc("State2_1 -down-> State2_2")); // Not bundled
+                expect(result).toMatch(esc("State2_3 -down-> State2_2")); // Not bundled
             });
 
             it('should return inner-directed machine map', () => {
